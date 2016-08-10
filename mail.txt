@@ -1,0 +1,27 @@
+From:laurens.dhooge@ugent.be
+Subject:Re:your earlier message
+
+This is my response to your earlier message
+Please note the inclusion of your original message under this one
+--
+Hi,
+
+From:laurens.dhooge@ugent.be
+Subject:Re:       Re:  another message
+
+Content of second message
+
+From:laurens.dhooge@ugent.be
+Subject:Re: Re: yet another message
+
+Content of third message
+
+From:laurens.dhooge@ugent.be
+Subject:Re: XRe: yet another message
+
+Content of fourth message
+
+from: cc@qa.ze
+Subject: nothing really (except header appending to content of msg 4)
+
+Content of fifth message, should be appended to content of fourth message
