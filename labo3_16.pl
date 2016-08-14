@@ -107,14 +107,14 @@ for my $y (0..2*$maxY) {     # initialiseren output
 # zijn ze beiden false dan wordt een + geschreven
 # het resultaat is een afwisseling van plussen en spaties, zo meteen worden "muren" toegevoegd en op de juiste plaatsen openingen gelaten
 
-{
-  for my $y (0..2*$maxY){
-    for my $x (0..2*$maxX){
-      print "$pr[$y][$x]";
-    }
-    print "\n";
-  }
-}
+# {
+#   for my $y (0..2*$maxY){
+#     for my $x (0..2*$maxX){
+#       print "$pr[$y][$x]";
+#     }
+#     print "\n";
+#   }
+# }
 
 
 @ARGV=@OARG; # hier komt de kopie van pas, <> lees van ARGV, maar na een bestand gelezen te hebben wordt het van de array geshift, hiermee doen we alsof we het eerste bestand nog niet gelezen hebben
@@ -128,17 +128,23 @@ $f = $_;
 while ( $f =~ /^(\d+)(?:\.\d*)? (\d+)(?:\.\d*)? m.(\d+)(?:\.\d*)? (\d+)(?:\.\d*)? l$/sgm )
 {                            # bepaling eindpunten van segmenten, nu gemapt op kolom- en rijnummers
   if ($X{$1}==$X{$3}) {    # vertikale lijen
-      for (($Y{$2}<$Y{$4} ? $Y{$2} : $Y{$4})..($Y{$2}<$Y{$4} ? $Y{$4} : $Y{$2})-1) { # (Ystart < Yeinde ? Ystart : Yeinde) .. (Ystart < Yeinde ? Yeinde : Ystart) - 1
+      for (($Y{$2}<$Y{$4} ? $Y{$2} : $Y{$4})..($Y{$2}<$Y{$4} ? $Y{$4} : $Y{$2})-1) { # $Y{$2} bevat het rijnummer van Y coördinaat, $Y{$4} ook voor een andere Y coördinaat
       # door het design van bovenstaande lijst verkrijg je ALTIJD een oplopende lijst, het beginpunt is steeds de kleinste Y, het eindpunt steeds de grootste
+      # als het rijnummer van co 1 < rijnummer co 2 => co1 .. co2 - 1
         $pr[2*($maxY-$_)-1][2*$X{$1}]="|";
+        # 2 * ($maxY - $_) - 1 ligt altijd in 0..28 voor s11.pdf want maxY = 14, we krijgen dus een Yco en een Xco waar een verticale lijn moet komen
      }
    }
    elsif ($Y{$2}==$Y{$4}) { # horizontale lijen
       for (($X{$1}<$X{$3} ? $X{$1} : $X{$3})..($X{$1}<$X{$3} ? $X{$3} : $X{$1})-1) {
+      # zelfde verhaal als eerder alleen loopt de binnenste lijst nu van x1 .. x2 -1 of x2 .. x1 -1 afh of x1<x2 of niet
 	       $pr[2*($maxY-$Y{$2})][2*$_+1]="-";
+         # hier blijft de Yco voor een hele reeks hetzelfde en loopt de Xco
       }
     }
 }
+# algemeen: voor de | lijnen: op de bestaande kolomnummers (gevonden in $X{$1}) komen |, de -1 bij de Yco dient om op de juiste rij te staan 2n-1 is altijd oneven waardoor de | op de correcte rijen terecht komen
+          # voor de -       : op de bestaande rijnummers (gevonden in $Y{$2}) komen -, de -1 of +1 dienen ook weer om op de juiste plaatsen te komen en geen eerdere markeringen te overschrijven
 
 for my $y (0..2*$maxY) {
     print @{$pr[$y]},"\n";
