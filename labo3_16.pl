@@ -127,7 +127,7 @@ $f = $_;
 
 while ( $f =~ /^(\d+)(?:\.\d*)? (\d+)(?:\.\d*)? m.(\d+)(?:\.\d*)? (\d+)(?:\.\d*)? l$/sgm )
 {                            # bepaling eindpunten van segmenten, nu gemapt op kolom- en rijnummers
-  if ($X{$1}==$X{$3}) {    # vertikale lijen
+  if ($X{$1}==$X{$3}) {    # verticale lijen
       for (($Y{$2}<$Y{$4} ? $Y{$2} : $Y{$4})..($Y{$2}<$Y{$4} ? $Y{$4} : $Y{$2})-1) { # $Y{$2} bevat het rijnummer van Y coördinaat, $Y{$4} ook voor een andere Y coördinaat
       # door het design van bovenstaande lijst verkrijg je ALTIJD een oplopende lijst, het beginpunt is steeds de kleinste Y, het eindpunt steeds de grootste
       # als het rijnummer van co 1 < rijnummer co 2 => co1 .. co2 - 1
