@@ -243,7 +243,78 @@ for(my $index = 0; $index<scalar @bereikbare_buren; $index++){
 print "mijn startcel heeft nummer: ",$startcel_index,".\n";
 print "mijn eindcel heeft nummer: ",$eindcel_index,".\n";
 
+my @dead_ends = ();
+for(0..$#bereikbare_buren){
+if(scalar @{$bereikbare_buren[$_]} == 1){
+push @dead_ends, $_+1;
+	}
+}
+# 1ste orde verboden cellen: alle echte dead-ends
+print "Dead-end cellen: @dead_ends\n";
+my %dead_ends = map{$_=>1} @dead_ends;
 
+foreach(keys %dead_ends){
+	my $onlyneighbour_index = $bereikbare_buren[$_-1][0];
+	print "onlyneighbour_index = $onlyneighbour_index\n";
+while(scalar @{$bereikbare_buren[$onlyneighbour_index-1]} == 2){
+	my @nt = @{$bereikbare_buren[$onlyneighbour_index-1]};
+	print "@nt\n";
+		$dead_ends{$onlyneighbour_index} = 1;
+		if($nt[0] == $_){
+			$onlyneighbour_index = $nt[1];
+		}
+		else{
+			$onlyneighbour_index = $nt[0];
+		}
+	}
+}
+
+#einde bepaling verboden cellen, ook alle cellen die leiden naar een dead-end
+
+my @chosen_path = ($startcel_index);
+my $huidigecel_index = $startcel_index;
+my $vorigecel_index = 0;
+
+while($chosen_path[$#chosen_path]!=$eindcel_index){
+
+	my @neighbours = @{$bereikbare_buren[$huidigecel_index-1]};
+	@neighbours = grep {$_ != $vorigecel_index} @neighbours;
+	my $choice = shift @neighbours;
+	while($dead_ends{$choice}){
+		$choice = shift @neighbours;
+	}
+push @chosen_path, $choice;
+print "\n@chosen_path\n";
+$vorigecel_index = $huidigecel_index;
+$huidigecel_index = $choice;
+}
+
+print "EINDE ALGORIMTE","\n"x3;
+
+print "@OARG";
+@ARGV = @OARG;
+undef $/;
+my $text = <>;
+$text =~ s!</svg>$!!ms;
+
+$text.="\n<g fill=\"red\" stroke=\"none\" stroke-width=\"1\" fill-opacity=\"0.5\">";
+for(@chosen_path){
+	my $dx = $blocks{$_}->[0] - $cellwidth/2;
+	my $dy = $blocks{$_}->[1] - $cellwidth/2;
+	$text.="\n<rect x=\"$dx\" y=\"$dy\" width=\"$cellwidth\" height=\"$cellwidth\"/>"
+}
+$text.="\n</g>";
+$text.="\n</svg>";
+print "\n"x5;
+print $text;
+
+my $mazename = (split '/',$OARG[0])[2];
+my $output_file = 'solved_'.$mazename;
+
+open(my $fh, '>',$output_file) or die "Could not open file '$output_file'  $!\n";
+
+print $fh $text;
+close $fh;
 
 
 
