@@ -24,6 +24,7 @@ my @ordered_precomputed = sort {$a->[0] cmp $b->[0]} @precomputed;
 
 foreach(@ordered_precomputed){
   print "$_->[0] & $_->[1]\n";
+  #print "\t@{$_}[0]\n" is equiv met $_->[0]
 }
 
 my @ordered = map {$_->[1]} @ordered_precomputed; # het resultaat hiervan is een array met echte elementen, geen referenties
@@ -33,7 +34,7 @@ print "@ordered\n\n";
 # de strategie hier is dat je een lijst hebt die je wil sorteren,
 # je wil echter pas de lijst sorteren nadat je een operatie hebt gedaan op de elementen van de lijst
 # je kan dit in meerdere stappen doen en voor elke tussenstap een variabele creëren
-# je slaat in stap 1 voor elke element zowel het origineel op als het resultaat van operation(origineel)
+# je slaat in stap 1 voor elk element zowel het origineel op als het resultaat van operation(origineel)
 # dit doe je door anonieme arrays te creëren als elementen
 # na het sorteren maak je een laatste array waarbij je de originele elementen uit de anonieme arrays haalt, die staan nu in de juiste volgorde
 # concreet: hier werden de inversen van enkele woorden genomen, die werden gesorteerd en de finale lijst zijn de originele woorden in de gesorteerde volgorde van hun inversen
@@ -51,21 +52,21 @@ for(@ordered_short){
 }
 print "\n";
 
-#
-# print map  { $_->[0] }             # whole line
-#       sort {
-#               $a->[1] <=> $b->[1]  # gid
-#                       ||
-#               $a->[2] <=> $b->[2]  # uid
-#                       ||
-#               $a->[3] cmp $b->[3]  # login
-#       }
-#       map  { [ $_, (split /:/)[3,2,0] ] }
-#       `cat /etc/passwd`; # qx{} perlop quote, interpolate (if necessary) and execute
-#       # opm dit zal niet werken op windows (verkeerd pad), wel op linux-distr
+
+print map  { $_->[0] }             # whole line
+      sort {
+              $a->[1] <=> $b->[1]  # gid
+                      ||
+              $a->[2] <=> $b->[2]  # uid
+                      ||
+              $a->[3] cmp $b->[3]  # login
+      }
+      map  { [ $_, (split /:/)[3,2,0] ] }
+      `cat /etc/passwd`; # qx{} perlop quote, interpolate (if necessary) and execute
+      # opm dit zal niet werken op windows (verkeerd pad), wel op linux-distr
 
 
-my @split_pwd = map { [ $_,(split /:/)[3,2,0]] } `cat /etc/passwd`;
+#my @split_pwd = map { [ $_,(split /:/)[3,2,0]] } `cat /etc/passwd`;
 
 # UITLEG
 # (split /:/) werkt in op $_ want we gaven geen EXPR mee
