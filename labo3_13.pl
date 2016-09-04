@@ -29,7 +29,7 @@ foreach my $record (@Array_of_Records) {
 }
 
 # UITLEG
-# ref() checkt of argument een referntie is, mogelijke waarden zie http://perldoc.perl.org/functions/ref.html
+# ref() checkt of argument een referentie is, mogelijke waarden zie http://perldoc.perl.org/functions/ref.html
 # de opbouw van de array is als volgt: @Array_of_Records krijgt via list assignment 2 volledige records mee met de structuur van een $wireless_netw records
 
 # Inlezen, te onthouden perl special variable: $/ input record separator
