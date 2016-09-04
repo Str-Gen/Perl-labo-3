@@ -98,7 +98,7 @@ while ($refknoop) {
     print "area:       ", $refknoop->{area},       "\n";
     print "\n";
     ($refknoop) = sort { $b->{population} <=> $a->{population} } @{ $refknoop->{kinderen} };
-  # let op de forced list context, sort wordt immers toegepast op een list en geeft ook een list terug, in dit geval wordt er
+  # let op de forced list context, sort wordt immers toegepast op een list en geeft ook een list terug
   # let ook op $b <=> $a descending sort maw grootste waarde eerst
 }
 
