@@ -49,7 +49,7 @@ $maxY = $4 if $4>$maxY;
 #print "minX = $1, minY = $2, maxX = $3, maxY = $4\n";
 
 if($1 == $3){ # verticale lijn
-$vert_segm{$1}->{$2} = $4; # $vert_segm{$1} = {$2 => $4} is FOUT, als de key al bestaat ($1) dan wordt een nieuwe anonieme hash gemaakt die de oude overschrijft
+	$vert_segm{$1}->{$2} = $4; # $vert_segm{$1} = {$2 => $4} is FOUT, als de key al bestaat ($1) dan wordt een nieuwe anonieme hash gemaakt die de oude overschrijft
 }                            # ook hier is autovivication weer van belang, met deze syntax zal voor elke nieuwe $1 die gezien wordt een nieuw paar in de hash komen
 
 
@@ -313,7 +313,7 @@ my $output_file = 'solved_'.$mazename;
 
 open(my $fh, '>',$output_file) or die "Could not open file '$output_file'  $!\n";
 
-print $fh $text;
+print $fh $text; # GEEN KOMMA tussen $fh en $text
 close $fh;
 
 
