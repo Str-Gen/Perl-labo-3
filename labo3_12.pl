@@ -38,7 +38,7 @@ for my $net (@ARGV) {
 
 #1ste iteratie => 0*256 + ip[0] = 200, 2de iteratie => 200*256 + 25 = 51225, 3de iteratie => 51225*256 + 0 = 51225*256, 4de iteratie (51225*256)*256 + 0
 
-print '$start%$aantal[$ip[4]] = ';
+print '$start % $aantal[$ip[4]] = ';
 my $tmp = $start % $aantal[$ip[4]];
 print "$tmp\n";
 
@@ -59,9 +59,9 @@ print "$tmp\n";
 }
 
 {
-  my $i = 0;
+  my $i = 0;  
   foreach(@V){
-    printf "\n\@V[$i] = %s (start)\n",join("aantal =  ",@{$V[$i]});
+    printf "\n\@V[$i] = %s (start)\n",join(" aantal =  ",@{$V[$i]});
     $i++;
   }
 }
@@ -79,7 +79,7 @@ while (@ARGV) {                              # verwerken subnets
 
   my $ind=-1;
   my $found=0;
-  for $super (@V) {                          # welk supernet bevat subnet ?
+  for my $super (@V) {                          # welk supernet bevat subnet ?
     $ind++;
     if ($start>=$super->[0] && $start<$super->[0]+$super->[1]) {
       # is start die hoger berekend werd minstens groter of gelijk aan de start van supernet 1 en is het maximaal kleiner dan supernet 1 + grootte van dat supernet
@@ -126,7 +126,7 @@ while (@ARGV) {                              # verwerken subnets
 
 for my $v (@V) {
   my @ip=();                                    # 4 bytes netwerkadres + 1 byte prefixlenge
-  for my ($b) (reverse 0..3) {                  # herassemblage naar de 4 byte vorm met prefixlengte
+  for my $b (reverse 0..3) {                  # herassemblage naar de 4 byte vorm met prefixlengte
     $ip[$b]=$v->[0]%256;
     $v->[0]-=$ip[$b];
     $v->[0]/=256;
